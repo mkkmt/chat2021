@@ -3,18 +3,29 @@ import random
 import IPython
 from google.colab import output
 
-
-n = 0 
-def chat(text, **kw):  #チャット用の関数（ここを書き換える）
-  global n
-  n += 1
-  return 'ほ' * n
-
 # アイコンの指定
 BOT_ICON = 'https://2.bp.blogspot.com/-mRJKwyORJkQ/Wn1ZTOBrszI/AAAAAAABKKs/Bg5yjLL9RYwmfUM0pEkBA3Ky3ui0IOZWQCLcBGAs/s800/animal_smile_inu.png'
 YOUR_ICON = 'https://4.bp.blogspot.com/-SC6_6x7MQnc/Wn1ZUkdcPxI/AAAAAAABKK8/qqHVlc8E7lEGsEwJ_J8H6Gp9RvfhTX67wCLcBGAs/s800/animal_smile_neko.png'
 
-def run_chat(chat = chat, start='占いするよ', **kw):
+import requests
+import json
+import datetime
+import pytz
+def uranai_api(input_text): #占いAPIを使った場合
+  global status
+  sign = []
+  if status=='':
+    status = 'sign'
+    return 'あなたの星座の番号を入力してください<br>牡羊座(0)牡牛座(1)双子座(2)蟹座(3)獅子座(4)乙女座(5)天秤座(6)蠍座(7)射手座(8)山羊座(9)水瓶座(10)魚座(11)'
+  if status=='sign':
+    no = int(input_text.strip())
+    now = datetime.datetime.now(pytz.timezone('Asia/Tokyo'))
+    today = now.strftime("%Y/%m/%d")
+    res = requests.get(url='http://api.jugemkey.jp/api/horoscope/free/'+ today)
+    return res.json()["horoscope"][today][no]["content"]
+    
+
+def run_chat(chat = uranai_api, start='占いするよ', **kw):
 
   def display_bot(bot_text):
     with output.redirect_to_element('#output'):
@@ -235,32 +246,5 @@ def run_chat(chat = chat, start='占いするよ', **kw):
   if start is not None:
     display_bot(start)
 
-# フレーム 状態をもつ辞書
-# 'name', 'birthday', 'asking'
-frame = {}
-
-def myuranai(input_text):
-  global frame # 外部の状態を参照する
-  if 'asking' in frame:  # asking から更新する
-    frame[frame['asking']] = input_text
-    del frame['asking']
-
-  if 'name' not in frame:
-    frame['asking'] = 'name' # 名前をたずねる  
-    return 'あなたの名前は？'
-
-  if 'name' in frame and 'birthday' not in frame:
-    frame['asking'] = 'birthday' # 誕生日をたずねる    
-    return 'あなたの誕生日は？'
-
-  if 'name' in frame and 'birthday' in frame:
-    # 占います
-    number = hash(frame['name']+frame['birthday']) % 10
-    if number > 5:
-      return 'あなたの運勢は大吉'
-    return 'あなたの運勢は吉'
-
-  return output_text
-
-def start():
-  run_chat(chat=myuranai)    
+status = ''
+run_chat()
