@@ -247,4 +247,4 @@ def run_chat(chat = uranai_api, start='占いするよ', **kw):
     display_bot(start)
 
 status = ''
-run_chat()
+#run_chat()
