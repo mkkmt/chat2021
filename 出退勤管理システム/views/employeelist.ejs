@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  </head>
+  <body>
+    <div class="container">
+      <h4>社員情報一覧</h4>
+      <%
+        var list = '<table class="striped">';
+        list += '<tr><th>名前</th><th>時給</th><th>操作</th></tr>'
+        for( i=0; i<employeelist.length; i++) {
+          list += '<tr><td>' + employeelist[i].name + '</td>';
+          list += '<td>' + employeelist[i].wage +'</td>';
+          var idstr = "'" + employeelist[i]._id + "'";
+          list += '<td><button onclick="updateemployee(' + idstr + ')" class="btn waves-effect waves-light green darken-1">変更</button>';
+          list += '<button onclick="deleteemployee(' + idstr + ')" class="btn waves-effect waves-light red darken-1">削除</button></td>';
+          list += '</tr>';
+        }
+        list += '</table>';
+      %>
+      <%- list %>
+      <button class="btn waves-effect waves-light blue darken-1" onclick="window.location.href='/'">戻る</button>
+    </div>
+    <script>
+      function deleteemployee(id) {
+        if( window.confirm('削除します。よろしいですか？') ) {
+          location.href = '/deleteemployee/' + id;
+        }
+      }
+      function updateemployee(id) {
+        location.href = '/updateemployee/' + id;
+      }
+    </script>
+  </body>
+</html>

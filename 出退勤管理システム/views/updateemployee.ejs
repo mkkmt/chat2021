@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  </head>
+  <body>
+    <div class="container">
+      <h4>社員情報変更</h4>
+      <div class="card-panel">
+        <form id="formupdateemployee" name="updateemployee" method="post" action="/updateemployee">
+          <input type="text" name="id" value="<%= updateemployee[0]._id %>" style="display: none;">
+          <div class="input-field"><input type="text" name="name" value="<%= updateemployee[0].name %>" required><label class="active">名前</label></div>
+          <div class="input-field"><input type="number" name="wage" value="<%= updateemployee[0].wage %>" required><label class="active">時給</label></div>
+          <button type="submit" class="btn waves-effect waves-light orange darken-1">登録</button>
+          <button type="button" class="btn waves-effect waves-light blue darken-1" onclick="window.location.href='/employeelist'">戻る</button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

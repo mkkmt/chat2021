@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  </head>
+  <body>
+    <div class="container">
+      <h3>出退勤管理システム</h3>
+      <div class="row">
+        <button class="col s3 btn waves-effect waves-light blue darken-1" onclick="location.href='./addattend'">出退勤入力</button>
+      </div>
+      <div class="row">
+        <button class="col s3 btn waves-effect waves-light blue darken-1" onclick="location.href='./attendlist'">出退勤入力確認</button>
+        <div class="col s9">未承認、承認、否認状況を確認できます。<br>承認以外のデータは、修正・削除する事ができます。</div>
+      </div>
+      <div class="row">
+        <button class="col s3 btn waves-effect waves-light blue darken-1" onclick="location.href='./report'">支払い状況</button>
+        <div class="col s9">社員、月毎の支払い状況を確認できます。</div>
+      </div>
+      <div class="row">
+        <button class="col s3 btn waves-effect waves-light blue darken-1" onclick="location.href='./checkattend'">出退勤承認</button>  
+        <div class="col s9">出退勤の承認者は、未承認のデータを確認し、承認、否認を行います。</div>
+      </div>
+      <hr>
+      <div class="row">
+        <button class="col s3 btn waves-effect waves-light purple darken-1" onclick="location.href='./addemployee'">社員情報入力</button>
+      </div>
+      <div class="row">
+        <button class="col s3 btn waves-effect waves-light purple darken-1" onclick="location.href='./employeelist'">社員情報一覧</button>
+      </div>
+    </div>
+  </body>
+</html>

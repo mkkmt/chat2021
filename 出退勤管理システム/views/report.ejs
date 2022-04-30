@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  </head>
+  <body>
+    <div class="container">
+      <h4>支払い状況</h4>
+      <%
+        // 出退勤入力情報を、名前・年月・承認/未承認順に稼働時間を並べる
+        var data = [];
+        for(var i=0; i<attendlist.length; i++) {
+          if( attendlist[i].status=='否認') continue;
+          var sdate = new Date(attendlist[i].date + ' ' + attendlist[i].start);
+          var edate = new Date(attendlist[i].date + ' ' + attendlist[i].end);
+          var diff = Math.abs(edate-sdate) / (60*60*1000);
+          data.push({name: attendlist[i].name, date: attendlist[i].date.substr(0,7), wage: attendlist[i].wage, status: attendlist[i].status, diff: diff});
+        }
+        data.sort( function(a,b) {
+          if( a.name < b.name) return -1;
+          if( a.name > b.name) return 1;
+          if( a.date < b.date) return -1;
+          if( a.date > b.date) return 1;
+          if( a.status < b.status) return -1;
+          if( a.status > b.status) return 1;
+          return 0;
+        });
+
+        // 名前、月毎に稼働時間を集計する
+        var replist = [];
+        if( data.length>0) {
+          var pname = data[0].name;
+          var pdate = data[0].date;
+          var wage = data[0].wage;
+          var achour = 0; var nahour = 0;
+          if( data[0].status=='承認' ) { achour = data[0].diff; } else { nahour = data[0].diff; }
+          for(var i=1; i<data.length; i++) {
+            if( pname!=data[i].name || pdate!=data[i].date) {
+              replist.push({name: pname, date: pdate, acwage: achour*wage, nawage: nahour*wage});
+              pname = data[i].name;
+              pdate = data[i].date;
+              wage = data[i].wage;
+              achour = 0; nahour = 0;
+            }
+            if( data[i].status=='承認' ) { achour += data[i].diff; } else { nahour += data[i].diff; }
+          }
+          replist.push({name: pname, date: pdate, acwage: achour*wage, nawage: nahour*wage});
+        }
+
+        var list = '<table class="striped">';
+        list += '<tr><th>名前</th><th>日付</th><th>支払金額(承認分)</th><th>支払金額(未承認分)</th></tr>'
+        for( i=0; i<replist.length; i++) {
+          list += '<tr><td>' + replist[i].name + '</td>';
+          list += '<td>' + replist[i].date +'</td>';
+          list += '<td>' + Math.round(replist[i].acwage) + '</td>';
+          list += '<td>' + Math.round(replist[i].nawage) + '</td>';
+          list += '</tr>';
+        }
+        list += '</table>';
+      %>
+      <%- list %>
+      <button class="btn waves-effect waves-light blue darken-1" onclick="window.location.href='/'">戻る</button>
+    </div>
+  </body>
+</html>

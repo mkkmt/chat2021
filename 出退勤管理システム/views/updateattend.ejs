@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  </head>
+  <body>
+    <div class="container">
+      <h4>勤怠変更</h4>
+      <div class="card-panel">
+        <form id="formupdateattend" name="updateattend" method="post" action="/updateattend">
+          <input type="text" name="id" value="<%= updateattend[0]._id %>" style="display: none;">
+          <div class="input-field"><input type="text" name="name" value="<%= updateattend[0].name %>" readonly><label class="active">名前</label></div>
+          <div class="input-field"><input type="date" name="date" value="<%= updateattend[0].date %>" required><label class="active">日付</label></div>
+          <div class="input-field"><input type="time" name="start" value="<%= updateattend[0].start %>" required><label class="active">開始時刻</label></div>
+          <div class="input-field"><input type="time" name="end" value="<%= updateattend[0].end %>" required><label class="active">終了時刻</label></div>
+          <button type="submit" class="btn waves-effect waves-light orange darken-1">登録</button>
+          <button type="button" class="btn waves-effect waves-light blue darken-1" onclick="window.location.href='/attendlist'">戻る</button>
+        </form>  
+      </div>
+    </div>
+  </body>
+</html>
